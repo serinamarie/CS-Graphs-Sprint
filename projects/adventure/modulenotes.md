@@ -47,7 +47,7 @@
 
  ## Plan algorithm
  
-    ```def algorithm(starting_room):
+    ```def algorithm(map, starting_room):
             # traversal_path = []
             # dict = {}
             # get player.current_room.id

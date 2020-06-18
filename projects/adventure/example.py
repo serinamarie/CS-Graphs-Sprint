@@ -1,4 +1,4 @@
-path = [5,6,0]
+path = [5,0]
 
 # mydict = {
 #     2: {'s': 1},
@@ -6,15 +6,16 @@ path = [5,6,0]
 #     0: {'n': 1, 's': '?', 'e': '?', 'w': '?'}
 # }
 
-mydict = {
-    5: {'s': 1},
-    9: {'n': 2, 's': 0},
+d = {
+    5: {'s': 6, 'n': 0},
     0: {'n': 1, 's': '?', 'e': '?', 'w': '?'}
 }
 
 traversal_path = ['n', 'n']
-for i, room in enumerate(path[:-1]):
-    direction = list(mydict[room].keys())[list(mydict[room].values()).index(path[i+1])]
+print('path', path[:-1])
+for i, room in enumerate([5]):
+    print(list(d[room].keys()))
+    direction = list(d[room].keys())[list(d[room].values()).index(path[i+1])]
     traversal_path.append(direction)
 print(traversal_path)
 
