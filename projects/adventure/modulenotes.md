@@ -47,7 +47,8 @@
 
  ## Plan algorithm
  
-    ```def algorithm(map, starting_room):
+    ```def algorithm(starting_room):
+            # traversal_path = []
             # dict = {}
             # get player.current_room.id
             # get player.current_room.get_exits()
@@ -92,6 +93,7 @@
                         for i, room in enumerate(path[:-1]):
                             direction = list(mydict[room].keys())[list(mydict[room].values()).index(path[i+1])]
                             traversal_path.append(direction)
+
                     else:
                         # exits = get curr's exits
                         # for exit in exits
