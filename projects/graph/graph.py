@@ -249,61 +249,39 @@ class Graph:
                 stack.push(new_path)
 
 
-    # def dfs_recursive(self, starting_vertex, destination_vertex):
-    #     """
-    #     Return a list containing a path from
-    #     starting_vertex to destination_vertex in
-    #     depth-first order.
-    #     This should be done using recursion.
-    #     """
-    #     # not structured properly
-        
-    #     if not isinstance(starting_vertex, list):
-    #         starting_vertex = [starting_vertex]
-    #     # base case
-    #     if starting_vertex[-1] == destination_vertex:
-    #         print(starting_vertex)
-    #     else:
-    #         # get neighbors
-    #         neighbors = self.get_neighbors(starting_vertex[-1])
-
-    #         for neighbor in neighbors:
-    #             # if neighbor not in starting_vertex 
-    #             if neighbor not in starting_vertex:
-    #                 new_path = list(starting_vertex)
-    #                 # append neighbor
-    #                 new_path.append(neighbor)
-    #                 # recursion
-    #                 self.dfs_recursive(new_path, destination_vertex)
-
     def dfs_recursive(self, starting_vertex, destination_vertex):
 
         # went over in class. no need to add additional arguments if graph is directed
 
         # original starting vertex is not a list
         if not isinstance(starting_vertex, list):
+
             starting_vertex = [starting_vertex]
 
         # get the latest node on the path, check if destination node
         if starting_vertex[-1] == destination_vertex:
+
             return starting_vertex
 
         # get neighbors of latest node
         neighbors = self.get_neighbors(starting_vertex[-1])
         
         for neighbor in neighbors:
+
+            # if neighbor not in starting_vertex 
             if neighbor not in starting_vertex:
+
                 new_path = list(starting_vertex)
+
+                # append neighbor
                 new_path.append(neighbor)
+
                 result = self.dfs_recursive(new_path, destination_vertex)
 
                 if result is not None:
+
                     return result
 
-
-              
-
-                # return
     
 if __name__ == '__main__':
     graph = Graph()  # Instantiate your graph
