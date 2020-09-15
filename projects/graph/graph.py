@@ -47,18 +47,25 @@ class Graph:
         Print each vertex in breadth-first order
         beginning from starting_vertex.
         """
+        # instantiate a queue
         queue = Queue()
 
+        # create a set for our visited vertices
         visited = set() 
 
+        # mark starting vertex as visited
         visited.add(starting_vertex)
 
+        # queue up the starting vertex
         queue.enqueue(starting_vertex)
 
+        # while we have a queue
         while queue.size() > 0:
 
+            # grab the vert at the front of the line 
             current_vert = queue.dequeue()
 
+            # print the vert
             print(current_vert)
 
             # get vert's neighbors 
