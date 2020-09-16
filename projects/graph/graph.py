@@ -159,7 +159,8 @@ class Graph:
             # if the deepest level node is the destination vertex
             if deepest_vertex == destination_vertex:
 
-                # this is the path!
+                # this is the path! (or at least one of the paths of this length)
+                # there may be others at this depth as well
                 return path
             
             # for each neighbor
