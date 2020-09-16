@@ -73,3 +73,9 @@ a graph, but also make it easy to see which *other* nodes are adjacent to other 
 4. If that node has any neighbors, check to see if they have been visited
 5. Add any neighboring nodes that still need to be visited to the queue
 6. Remove the node we've visited from the queue
+
+BFS lends itself to determining the shortest path between any node in the graph and the 'parent' node, we can keep track of the parents, if it is a level 3 node, it has 3 edges to return back to the 'parent' node
+    - an array of visited nodes, all marked FALSE to start
+    - runtime complexity can be calculated from the fact that for every single vertex in the graph, we have to iterate through adjacency list once o(v+e), to visit every node once, and check every edge in its adjacency list
+
+DFS is helpful in determining if a path even exist
