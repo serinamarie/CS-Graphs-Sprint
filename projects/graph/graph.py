@@ -128,14 +128,45 @@ class Graph:
         pass
 
         
-
     def bfs(self, starting_vertex, destination_vertex):
         """
         Return a list containing the shortest path from
         starting_vertex to destination_vertex in
         breath-first order.
         """
-        pass  # TODO
+        # instantiate a queue
+        queue = Queue()
+
+        # queue the starting vertex
+        queue.enqueue([starting_vertex])
+
+        # while there is a queue
+        while queue.size() > 0:
+
+            # dequeue a path 
+            path = queue.dequeue()
+
+            # go to the deepest level in the path
+            deepest_vertex = path[-1]
+
+            # if the deepest level node is the destination vertex
+            if deepest_vertex == destination_vertex:
+
+                # this is the path!
+                return path
+            
+            # for each neighbor
+            for neighbor in self.get_neighbors(deepest_vertex):
+
+                # create a new path (increasing the level of depth in our search)
+                new_path = list(path)
+
+                # where we add a new neighbor (level of depth) for each possibility
+                new_path.append(neighbor)
+
+                # add the new path to the queue
+                queue.enqueue(new_path)
+
 
     def dfs(self, starting_vertex, destination_vertex):
         """
@@ -143,7 +174,42 @@ class Graph:
         starting_vertex to destination_vertex in
         depth-first order.
         """
-        pass 
+
+        # change comments
+
+        # instantiate a stack
+        stack = Stack()
+
+        # push the starting vertex onto the stack
+        stack.push([starting_vertex])
+
+        # while there is a stack
+        while stack.size() > 0:
+
+            # pop off a path 
+            path = stack.pop()
+
+            # go to the deepest level in the path
+            deepest_vertex = path[-1]
+
+            # if the deepest level vertex is the destination vertex
+            if deepest_vertex == destination_vertex:
+
+                # we can stop our search
+                return path
+            
+            # for each neighbor
+            for neighbor in self.get_neighbors(deepest_vertex):
+
+                # create a new path (increasing the level of depth in our search)
+                new_path = list(path)
+
+                # where we add a new neighbor (level of depth) for each possibility
+                new_path.append(neighbor)
+
+                # add the new path to the queue
+                stack.push(new_path)
+
 
     def dfs_recursive(self, starting_vertex, destination_vertex):
         """
@@ -214,16 +280,17 @@ if __name__ == '__main__':
     print('----dft recursion-----')
     graph.dft_recursive(1)
 
+    print('----bfs-----')
     '''
     Valid BFS path:
         [1, 2, 4, 6]
     '''
-    # print(graph.bfs(1, 6))
+    print(graph.bfs(1, 6))
 
     '''
     Valid DFS paths:
         [1, 2, 4, 6]
         [1, 2, 4, 7, 6]
     '''
-    # print(graph.dfs(1, 6))
+    print(graph.dfs(1, 6))
     # print(graph.dfs_recursive(1, 6))
