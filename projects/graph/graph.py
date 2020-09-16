@@ -183,8 +183,6 @@ class Graph:
         depth-first order.
         """
 
-        # change comments
-
         # instantiate a stack
         stack = Stack()
 
