@@ -77,6 +77,10 @@ a graph, but also make it easy to see which *other* nodes are adjacent to other 
 BFS lends itself to determining the shortest path between any node in the graph and the 'parent' node, we can keep track of the parents, if it is a level 3 node, it has 3 edges to return back to the 'parent' node
     - an array of visited nodes, all marked FALSE to start
     - runtime complexity can be calculated from the fact that for every single vertex in the graph, we have to iterate through adjacency list once o(v+e), to visit every node once, and check every edge in its adjacency list
+    - BGS is useful unless the graph is very wide as we'd need to store all of it, level by level with references and using memory unnecessarily 
 
-DFS is helpful in determining if a path even exist
+### DFS traversal
+- DFS is helpful in determining if a path even exists.
+- It requires o(v+e) runtime (for a directed graph, |E|edges to check. for an undirected graph, 2|E| edges). Linear time   
+- DFS is useful if a graph is deep enough since we don't need to store the entire thing in memory
 

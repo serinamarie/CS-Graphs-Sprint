@@ -6,26 +6,41 @@ from util import Stack, Queue  # These may come in handy
 class Graph:
 
     """Represent a graph as a dictionary of vertices mapping labels to edges."""
+
     def __init__(self):
+
         self.vertices = {}
+
 
     def add_vertex(self, vertex_id):
         """
         Add a vertex to the graph.
         """
-        pass  # TODO
+        self.vertices[vertex_id] = set()
+
 
     def add_edge(self, v1, v2):
         """
         Add a directed edge to the graph.
         """
-        pass  # TODO
+        # Assuming this is a directed graph requiring edges made up of ordered pairs
+        if v1 in self.vertices:
+            
+            # add the connection
+            self.vertices[v1].add(v2)
+
+        # if not in vertices dict
+        else: 
+
+            raise Exception(f"No {v1} vertex in dict of vertices")
+
 
     def get_neighbors(self, vertex_id):
         """
         Get all neighbors (edges) of a vertex.
         """
-        pass  # TODO
+        return self.vertices[vertex_id]
+
 
     def bft(self, starting_vertex):
         """
@@ -34,13 +49,48 @@ class Graph:
         """
         pass  # TODO
 
+        
     def dft(self, starting_vertex):
         """
         Print each vertex in depth-first order
         beginning from starting_vertex.
         """
-        pass  # TODO
+        # instantiate a stack
+        stack = Stack()
 
+        # track visited verts as a set()
+        visited = set() 
+
+        # add starting vert to visited
+        visited.add(starting_vertex)
+
+        # push the starting vert
+        stack.push(starting_vertex)
+     
+        # while stack isn't empty
+        while stack.size() > 0:
+
+            # pop off the top of the stack, and set to current vert
+            current_vert = stack.pop()
+
+            print(current_vert)
+
+            # get vert's neighbors 
+            neighbors = self.get_neighbors(current_vert)
+
+            # for each neighbor
+            for neighbor in neighbors:
+
+                # if neighbor has not been visited
+                if neighbor not in visited:
+
+                    # mark as visited
+                    visited.add(neighbor)
+
+                    # add neighbor to top of the stack
+                    stack.push(neighbor)
+
+      
     def dft_recursive(self, starting_vertex):
         """
         Print each vertex in depth-first order
@@ -48,7 +98,9 @@ class Graph:
 
         This should be done using recursion.
         """
-        pass  # TODO
+        pass
+
+        
 
     def bfs(self, starting_vertex, destination_vertex):
         """
@@ -64,7 +116,7 @@ class Graph:
         starting_vertex to destination_vertex in
         depth-first order.
         """
-        pass  # TODO
+        pass 
 
     def dfs_recursive(self, starting_vertex, destination_vertex):
         """
@@ -75,6 +127,7 @@ class Graph:
         This should be done using recursion.
         """
         pass  # TODO
+
 
 if __name__ == '__main__':
     graph = Graph()  # Instantiate your graph
@@ -101,7 +154,7 @@ if __name__ == '__main__':
     Should print:
         {1: {2}, 2: {3, 4}, 3: {5}, 4: {6, 7}, 5: {3}, 6: {3}, 7: {1, 6}}
     '''
-    print(graph.vertices)
+    print('graph vertices:', graph.vertices)
 
     '''
     Valid BFT paths:
@@ -118,7 +171,7 @@ if __name__ == '__main__':
         1, 2, 4, 3, 7, 6, 5
         1, 2, 4, 3, 7, 5, 6
     '''
-    graph.bft(1)
+    # graph.bft(1)
 
     '''
     Valid DFT paths:
@@ -127,19 +180,22 @@ if __name__ == '__main__':
         1, 2, 4, 7, 6, 3, 5
         1, 2, 4, 6, 3, 5, 7
     '''
+    print('----dft iteration-----')
+
     graph.dft(1)
+    print('----dft recursion-----')
     graph.dft_recursive(1)
 
     '''
     Valid BFS path:
         [1, 2, 4, 6]
     '''
-    print(graph.bfs(1, 6))
+    # print(graph.bfs(1, 6))
 
     '''
     Valid DFS paths:
         [1, 2, 4, 6]
         [1, 2, 4, 7, 6]
     '''
-    print(graph.dfs(1, 6))
-    print(graph.dfs_recursive(1, 6))
+    # print(graph.dfs(1, 6))
+    # print(graph.dfs_recursive(1, 6))
