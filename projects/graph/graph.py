@@ -140,8 +140,10 @@ class Graph:
         # if length of starting_vertex equal to the number of vertices
         if len(starting_vertex) == len(self.vertices):
 
-            # return vertices individually
-            print('\n'.join(str(e) for e in starting_vertex))
+            return starting_vertex
+
+            # # return vertices individually
+            # print('\n'.join(str(e) for e in starting_vertex))
     
         # else 
         else:
@@ -172,6 +174,9 @@ class Graph:
         """
         # instantiate a queue
         queue = Queue()
+
+        # visited nodes
+        visited = set()
 
         # queue the starting vertex
         queue.enqueue([starting_vertex])
@@ -262,7 +267,9 @@ class Graph:
             print(starting_vertex)
         else:
             # get neighbors
-            for neighbor in self.get_neighbors(starting_vertex[-1]):
+            neighbors = self.get_neighbors(starting_vertex[-1])
+
+            for neighbor in neighbors:
                 # if neighbor not in starting_vertex 
                 if neighbor not in starting_vertex:
                     new_path = list(starting_vertex)
@@ -278,6 +285,24 @@ class Graph:
 if __name__ == '__main__':
     graph = Graph()  # Instantiate your graph
     # https://github.com/LambdaSchool/Graphs/blob/master/objectives/breadth-first-search/img/bfs-visit-order.png
+    # graph.add_vertex(1)
+    # graph.add_vertex(2)
+    # graph.add_vertex(3)
+    # graph.add_vertex(4)
+    # graph.add_vertex(5)
+    # graph.add_vertex(6)
+    # graph.add_vertex(7)
+    # graph.add_edge(5, 3)
+    # graph.add_edge(6, 3)
+    # graph.add_edge(7, 1)
+    # graph.add_edge(4, 7)
+    # graph.add_edge(1, 2)
+    # graph.add_edge(7, 6)
+    # graph.add_edge(2, 4)
+    # graph.add_edge(3, 5)
+    # graph.add_edge(2, 3)
+    # graph.add_edge(4, 6)
+
     graph.add_vertex(1)
     graph.add_vertex(2)
     graph.add_vertex(3)
@@ -285,16 +310,31 @@ if __name__ == '__main__':
     graph.add_vertex(5)
     graph.add_vertex(6)
     graph.add_vertex(7)
-    graph.add_edge(5, 3)
+    graph.add_vertex(8)
+    graph.add_vertex(9)
+    graph.add_vertex(10)
+    graph.add_vertex(11)
+    # graph.add_edge(1, 3)
+    # graph.add_edge(2, 3)
+    # graph.add_edge(3, 6)
+    # graph.add_edge(5, 6)
+    # graph.add_edge(5, 7)
+    # graph.add_edge(4, 5)
+    # graph.add_edge(4, 8)
+    # graph.add_edge(8, 9)
+    # graph.add_edge(11, 8)
+    # graph.add_edge(10, 1)
+
+    graph.add_edge(3, 1)
+    graph.add_edge(3, 2)
     graph.add_edge(6, 3)
-    graph.add_edge(7, 1)
-    graph.add_edge(4, 7)
-    graph.add_edge(1, 2)
-    graph.add_edge(7, 6)
-    graph.add_edge(2, 4)
-    graph.add_edge(3, 5)
-    graph.add_edge(2, 3)
-    graph.add_edge(4, 6)
+    graph.add_edge(6, 5)
+    graph.add_edge(7, 5)
+    graph.add_edge(5, 4)
+    graph.add_edge(8, 4)
+    graph.add_edge(9, 8)
+    graph.add_edge(8, 11)
+    graph.add_edge(1, 10)
 
     '''
     Should print:
@@ -318,7 +358,7 @@ if __name__ == '__main__':
         1, 2, 4, 3, 7, 5, 6
     '''
     print('----bft iteration-----')
-    graph.bft(1)
+    graph.bft(6)
 
     '''
     Valid DFT paths:
@@ -329,16 +369,16 @@ if __name__ == '__main__':
     '''
     print('----dft iteration-----')
 
-    graph.dft(1)
+    print(graph.dft(1))
     print('----dft recursion-----')
-    graph.dft_recursive(1)
+    print(graph.dft_recursive(6))
 
-    print('----bfs-----')
+    # print('----bfs-----')
     '''
     Valid BFS path:
         [1, 2, 4, 6]
     '''
-    print(graph.bfs(1, 6))
+    # print(graph.bfs(1, 6))
 
     '''
     Valid DFS paths:
@@ -346,10 +386,10 @@ if __name__ == '__main__':
         [1, 2, 4, 7, 6]
     '''
     print('----dfs iterative----')
-    print(graph.dfs(1, 6))
+    print(graph.dfs(6, 10))
 
     print('----dfs recursive-----')
-    print(graph.dfs_recursive([1, 2], 6))
+    print(graph.dfs_recursive(6, 10))
 
     dft = [
         "1\n2\n3\n5\n4\n6\n7\n",

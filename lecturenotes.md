@@ -84,3 +84,55 @@ BFS lends itself to determining the shortest path between any node in the graph 
 - It requires o(v+e) runtime (for a directed graph, |E|edges to check. for an undirected graph, 2|E| edges). Linear time   
 - DFS is useful if a graph is deep enough since we don't need to store the entire thing in memory
 
+### DAG: Topological sorting
+- allows for sorting of vertices in a graph in a specific order, based on the interconnectedness of its edges
+
+### Weighted graphs
+- a graph whose edges have a value associated with them 
+- represents costs or distance, or even capacity that can be transported between two nodes
+- in a weighted graph's adjacency list, we add an additional field to the elements of the linked list that represent the cost/weight
+
+- brute-forcing a shortest path is not easy, thus:
+
+### Dijkstra's algorithm
+- used to find the shortest path between two nodes
+- can find the shortest path from one node to EVERY other node, provided nodes are reachable
+- algorithm runs until all reachable vertices are visited
+- then we can look up results from the algorithm again and again
+
+Rules:
+1. from starting node, visit the vertex with smallest known distance
+2. check neighbors
+3. calculate cost for neighbors by summing cost of the edges leading from start vertex
+4. if cost to a vertex we are checking is less than a known distance, update shortest distance for that vertex
+
+- when we initialize setup, shortest distance from starting node to other nodes is infinity, except to itself, which is 0
+- create a visited and unvisited array
+- all start out as unvisited [a,b,c,d,e]
+- 'visit' vertex with smallest known cost, (a) the starting node
+- examine neighboring nodes, calculate distance from vertex 
+    - distance to b: 0+7 = 7
+    - distance to c: 0+3 = 3
+- if distance less than shortest known distance update (7 is less than infinity)
+- visit c as it has the shortest distance
+    - distance to b: 3+1 = 4, less than 7 so update shortest distance
+    - distance to d: 3+2 = 5, less than infinity so update shortest distance
+- visit b as it has the shortest distance
+    - visit e as we haven't visited
+    - calculate distance to e, from origin a, via current vertex b
+    - distance to e: 4+6= 10
+- once we have only e left to visit, there's no neighbor's left to visit, we just have to mark e as visited
+
+|vertex|shortest distance from a|previous vertex|
+|  a   |          0             |       -       |
+|  b   |          4             |       c       |
+|  c   |          3             |       a       |
+|  d   |          5             |       b       |
+|  e   |          9             |       d       |
+
+- to find the shortest path, follow the previous vertex of any node back up to the start
+    - we can push each vertex onto a stack and then pop them off in order to construct our shortest path
+    - to find the shortest path from a to d, start at d, and trace our steps back to the starting node
+    - start a node d, push it onto the stack, this will look at node d's previous vertex, node b, we'll push b onto the stack, look at node b's previous vertex node c, push that onto the stack, then look at node c's previous vertex, which is node a, our starting vertex. once at the starting vertex, we can pop each vertex off of the stack, a -- c -- b -- d
+
+- Dijkstra's algorithm is a sophisticated take on BFT, can handle weighted graphs well. Often found in path-finding problems
