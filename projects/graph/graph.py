@@ -132,6 +132,8 @@ class Graph:
 
         This should be done using recursion.
         """
+        # this passes but feels messy.. need to return with a cleaner way
+
         if not isinstance(starting_vertex, list):
             starting_vertex = [starting_vertex]
 
@@ -158,6 +160,8 @@ class Graph:
 
                     # traverse
                     self.dft_recursive(new_path)
+
+
 
         
     def bfs(self, starting_vertex, destination_vertex):
@@ -247,34 +251,30 @@ class Graph:
         Return a list containing a path from
         starting_vertex to destination_vertex in
         depth-first order.
-
         This should be done using recursion.
         """
-
-        # not working :/ blarg
-
+        # not structured properly
+        
         if not isinstance(starting_vertex, list):
             starting_vertex = [starting_vertex]
-
-        if list(starting_vertex)[-1] == destination_vertex:
-        # if starting_vertex[-1] == destination_vertex:
-        
-            return starting_vertex
-
+        # base case
+        if starting_vertex[-1] == destination_vertex:
+            print(starting_vertex)
         else:
+            # get neighbors
+            for neighbor in self.get_neighbors(starting_vertex[-1]):
+                # if neighbor not in starting_vertex 
+                if neighbor not in starting_vertex:
+                    new_path = list(starting_vertex)
+                    # append neighbor
+                    new_path.append(neighbor)
+                    # recursion
+                    self.dfs_recursive(new_path, destination_vertex)
 
-            current_vertex = starting_vertex[-1]
+              
 
-            # for 3 and 5
-            for neighbor in self.get_neighbors(current_vertex):
-
-                new_path = list(starting_vertex)
-
-                new_path.append(neighbor) # [1,2,3] and [1,3,5]
-
-                self.dfs_recursive(new_path, destination_vertex)
-
-
+                # return
+    
 if __name__ == '__main__':
     graph = Graph()  # Instantiate your graph
     # https://github.com/LambdaSchool/Graphs/blob/master/objectives/breadth-first-search/img/bfs-visit-order.png
@@ -300,7 +300,7 @@ if __name__ == '__main__':
     Should print:
         {1: {2}, 2: {3, 4}, 3: {5}, 4: {6, 7}, 5: {3}, 6: {3}, 7: {1, 6}}
     '''
-    # print('graph vertices:', graph.vertices)
+    print('graph vertices:', graph.vertices)
 
     '''
     Valid BFT paths:
@@ -317,8 +317,8 @@ if __name__ == '__main__':
         1, 2, 4, 3, 7, 6, 5
         1, 2, 4, 3, 7, 5, 6
     '''
-    # print('----bft iteration-----')
-    # graph.bft(1)
+    print('----bft iteration-----')
+    graph.bft(1)
 
     '''
     Valid DFT paths:
@@ -327,29 +327,29 @@ if __name__ == '__main__':
         1, 2, 4, 7, 6, 3, 5
         1, 2, 4, 6, 3, 5, 7
     '''
-    # print('----dft iteration-----')
+    print('----dft iteration-----')
 
-    # graph.dft(1)
+    graph.dft(1)
     print('----dft recursion-----')
     graph.dft_recursive(1)
 
-    # print('----bfs-----')
+    print('----bfs-----')
     '''
     Valid BFS path:
         [1, 2, 4, 6]
     '''
-    # print(graph.bfs(1, 6))
+    print(graph.bfs(1, 6))
 
-    # '''
-    # Valid DFS paths:
-    #     [1, 2, 4, 6]
-    #     [1, 2, 4, 7, 6]
-    # '''
-    # print('----dfs iterative----')
-    # print(graph.dfs(1, 6))
+    '''
+    Valid DFS paths:
+        [1, 2, 4, 6]
+        [1, 2, 4, 7, 6]
+    '''
+    print('----dfs iterative----')
+    print(graph.dfs(1, 6))
 
-    # print('----dfs recursive-----')
-    # print(graph.dfs_recursive(1, 6))
+    print('----dfs recursive-----')
+    print(graph.dfs_recursive([1, 2], 6))
 
     dft = [
         "1\n2\n3\n5\n4\n6\n7\n",
