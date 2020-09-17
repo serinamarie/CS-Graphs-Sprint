@@ -225,8 +225,29 @@ class Graph:
 
         This should be done using recursion.
         """
-        pass  # TODO
 
+        # not working :/ blarg
+
+        if not isinstance(starting_vertex, list):
+            starting_vertex = [starting_vertex]
+
+        if list(starting_vertex)[-1] == destination_vertex:
+        # if starting_vertex[-1] == destination_vertex:
+        
+            return starting_vertex
+
+        else:
+
+            current_vertex = starting_vertex[-1]
+
+            # for 3 and 5
+            for neighbor in self.get_neighbors(current_vertex):
+
+                new_path = list(starting_vertex)
+
+                new_path.append(neighbor) # [1,2,3] and [1,3,5]
+
+                self.dfs_recursive(new_path, destination_vertex)
 
 if __name__ == '__main__':
     graph = Graph()  # Instantiate your graph
@@ -298,5 +319,8 @@ if __name__ == '__main__':
         [1, 2, 4, 6]
         [1, 2, 4, 7, 6]
     '''
+    print('----dfs iterative----')
     print(graph.dfs(1, 6))
-    # print(graph.dfs_recursive(1, 6))
+
+    print('----dfs recursive-----')
+    print(graph.dfs_recursive(1, 6))
