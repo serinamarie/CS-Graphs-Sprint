@@ -132,7 +132,32 @@ class Graph:
 
         This should be done using recursion.
         """
-        pass
+        if not isinstance(starting_vertex, list):
+            starting_vertex = [starting_vertex]
+
+        # if length of starting_vertex equal to the number of vertices
+        if len(starting_vertex) == len(self.vertices):
+
+            # return vertices individually
+            print('\n'.join(str(e) for e in starting_vertex))
+    
+        # else 
+        else:
+
+            # list starting vertex[-1]
+            for neighbor in self.get_neighbors(starting_vertex[-1]):
+
+                # if neighbor not already visited
+                if neighbor not in starting_vertex:
+
+                    # make a new path
+                    new_path = list(starting_vertex)
+    
+                    # append neighbor to new path
+                    new_path.append(neighbor)
+
+                    # traverse
+                    self.dft_recursive(new_path)
 
         
     def bfs(self, starting_vertex, destination_vertex):
@@ -249,6 +274,7 @@ class Graph:
 
                 self.dfs_recursive(new_path, destination_vertex)
 
+
 if __name__ == '__main__':
     graph = Graph()  # Instantiate your graph
     # https://github.com/LambdaSchool/Graphs/blob/master/objectives/breadth-first-search/img/bfs-visit-order.png
@@ -274,7 +300,7 @@ if __name__ == '__main__':
     Should print:
         {1: {2}, 2: {3, 4}, 3: {5}, 4: {6, 7}, 5: {3}, 6: {3}, 7: {1, 6}}
     '''
-    print('graph vertices:', graph.vertices)
+    # print('graph vertices:', graph.vertices)
 
     '''
     Valid BFT paths:
@@ -291,8 +317,8 @@ if __name__ == '__main__':
         1, 2, 4, 3, 7, 6, 5
         1, 2, 4, 3, 7, 5, 6
     '''
-    print('----bft iteration-----')
-    graph.bft(1)
+    # print('----bft iteration-----')
+    # graph.bft(1)
 
     '''
     Valid DFT paths:
@@ -301,26 +327,42 @@ if __name__ == '__main__':
         1, 2, 4, 7, 6, 3, 5
         1, 2, 4, 6, 3, 5, 7
     '''
-    print('----dft iteration-----')
+    # print('----dft iteration-----')
 
-    graph.dft(1)
+    # graph.dft(1)
     print('----dft recursion-----')
     graph.dft_recursive(1)
 
-    print('----bfs-----')
+    # print('----bfs-----')
     '''
     Valid BFS path:
         [1, 2, 4, 6]
     '''
-    print(graph.bfs(1, 6))
+    # print(graph.bfs(1, 6))
 
-    '''
-    Valid DFS paths:
-        [1, 2, 4, 6]
-        [1, 2, 4, 7, 6]
-    '''
-    print('----dfs iterative----')
-    print(graph.dfs(1, 6))
+    # '''
+    # Valid DFS paths:
+    #     [1, 2, 4, 6]
+    #     [1, 2, 4, 7, 6]
+    # '''
+    # print('----dfs iterative----')
+    # print(graph.dfs(1, 6))
 
-    print('----dfs recursive-----')
-    print(graph.dfs_recursive(1, 6))
+    # print('----dfs recursive-----')
+    # print(graph.dfs_recursive(1, 6))
+
+    dft = [
+        "1\n2\n3\n5\n4\n6\n7\n",
+        "1\n2\n3\n5\n4\n7\n6\n",
+        "1\n2\n4\n7\n6\n3\n5\n",
+        "1\n2\n4\n6\n3\n5\n7\n"
+    ]
+    import sys, io
+    stdout_ = sys.stdout
+    sys.stdout = io.StringIO()
+    graph.dft_recursive(1)
+    output = sys.stdout.getvalue()
+
+    print(output, dft)
+
+    sys.stdout = stdout_  # Restore stdout
