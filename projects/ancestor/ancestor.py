@@ -13,6 +13,8 @@
 # for each neighbor
 # if not already visited
 # add the neighbor
+# edge cases: no ancestors
+# also, keep track of depth
 
 # ancestors
 test_ancestors = [(1, 3), (2, 3), (3, 6), (5, 6), (5, 7), (4, 5), 
