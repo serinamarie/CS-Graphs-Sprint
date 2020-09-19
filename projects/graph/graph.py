@@ -140,10 +140,8 @@ class Graph:
         # if length of starting_vertex equal to the number of vertices
         if len(starting_vertex) == len(self.vertices):
 
-            return starting_vertex
-
-            # # return vertices individually
-            # print('\n'.join(str(e) for e in starting_vertex))
+            # return vertices individually
+            print('\n'.join(str(e) for e in starting_vertex))
     
         # else 
         else:
