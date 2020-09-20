@@ -22,16 +22,15 @@ def earliest_ancestor(ancestors, starting_vertex):
     # create a hash table called vertices to store ancestors
     vertices = {}
 
-    # append all ancestors and their edges to vertices dict
+    # add all ancestors to vertices dict
     for ancestor in ancestors:
         vertices[ancestor[1]] = set()
         vertices[ancestor[0]] = set()
 
+    # add all ancestors' edges (ancestors)
     for ancestor in ancestors:
-        if ancestor[1] not in vertices:
-            vertices[ancestor[1]] = ancestor[0]
-        else:
-            vertices[ancestor[1]].add(ancestor[0])
+        
+        vertices[ancestor[1]].add(ancestor[0])
 
     # if starting vertex has no ancestors
     if not vertices[starting_vertex]:
