@@ -42,14 +42,8 @@ def earliest_ancestor(ancestors, starting_vertex):
         # create an empty list for stack
         stack = []
 
-        # create an empty set for visited ancestors
-        visited = set()
-
         # keep track of depth
         depth = {starting_vertex:0}
-
-        # add the starting vertex to the visited vertices
-        visited.add(starting_vertex)
 
         # add the starting vertex to the stack
         stack.append(starting_vertex)
@@ -68,15 +62,9 @@ def earliest_ancestor(ancestors, starting_vertex):
 
                 # track the edge's depth as being one greater than the current node's
                 depth[edge] = depth[current_vert] + 1
-                
-                # if not already visited
-                if edge not in visited:
 
-                    # add the edge to the visited list
-                    visited.add(edge)
-
-                    # add edge to top of the stack
-                    stack.append(edge)
+                # add edge to top of the stack
+                stack.append(edge)
                 
         # return the max depth(s)
         max_value = max(depth.values())
