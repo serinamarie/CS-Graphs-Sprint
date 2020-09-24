@@ -22,6 +22,7 @@
     - connect_rooms('n', 5)
     - get_room_in_direction('n') (for player to use)
     - get_coords()
+
 ### Player
 - attributes: current_room
 - methods: travel('n') (uses get_room_in_direction) and moves to it
@@ -45,53 +46,65 @@
  - will need: visited, queue, stack, map dict,
 
  ## Plan algorithm
- def algorithm(map, starting_room):
-    # dict = {}
-    # get player.current_room.id
-    # get player.current_room.get_exits()
-    # add dict[current_room][id] # add all possible exits, with ? marks
-    # direction ('n') = choose 1 exit randomly ('n')
-    # current_room = player.travel(direction)
-    # dict[starting_room][direction 'n'] = current_room.id (1)
+ 
+    ```def algorithm(map, starting_room):
+            # dict = {}
+            # get player.current_room.id
+            # get player.current_room.get_exits()
+            # add dict[current_room][id] # add all possible exits, with ? marks
+            # direction ('n') = choose 1 exit randomly ('n')
+            # add direction to traversal_path
+            # current_room = player.travel(direction)
+            # dict[starting_room][direction 'n'] = current_room.id (1)
 
-    # visited_s = set() add starting room
-    # create a stack
-    # create a queue
-    # push the current_room to stack
+            # visited = set() add starting room
+            # create a stack
+            # create a queue
+            # push the current_room to stack
 
-     
-# while dict length is less than 500
-    # while stack
-        # room = pop()
-        # add to visited_s
+            # while dict contains '?'
+                # while stack
+                    # room = pop()
+                    # add to visited
+                    # get exits 
+                    # exits ('n') = get_exits()
+                    # for exit ('n') in exits:
+                        create new entry in dict
+                        # dict[room.id][exit] = get_room_in_direction(exit)
 
-        # get exits 
-        # exits ('n') = get_exits()
-        # for exit ('n') in exits:
-            create new entry in dict
-            # dict[room.id][exit] = get_room_in_direction(exit)
+                        if dict[room.id][exit] not in visited
+                            # append exit to traversal_path
+                            # next_room = get_room_in_direction(exit)
+                            # stack.push(next_room)
+                    
+                # if dict contains '?'
 
-            if dict[room.id][exit] not in visited_s
-                # next_room = get_room_in_direction(exit)
-                # add to visited_s
-                # stack.push(next_room)
+                    n = last node in visited/path
+                    enqueue([n])
+                
+                while queue:
+                    # path = dequeue()
+                    # last_in_path = path[-1]
+                    if dict[last_in_path].values() contains a '?'
+                        # get those exits with a ? and choose one at random
+                        # add it to the stack
+                        # also add to traversal_path
+                        for i, room in enumerate(path[:-1]):
+                            direction = list(mydict[room].keys())[list(mydict[room].values()).index(path[i+1])]
+                            traversal_path.append(direction)
+                    else:
+                        # exits = get curr's exits
+                        # for exit in exits
+                            # n = curr.get_room_in_direction(exit)
+                            # if n not in path
+                                # new_path = list(path)
+                                # new_path.append(n)
+                                # enqueue(new_path)
 
-    n = last node in visited/path
-    # add n to visited_q
-    enqueue(n)
-    
-    while dict[n].values does not contain '?':
-        # curr = dequeue()
-        # exits = get curr's exits
-        # for exit in exits
-            # n = curr.get_room_in_direction(exit)
-            # if n in visited_q
-                # enqueue(n)
-                # add to visited_q
-    # room_with_question_mark = dequeue()
-    # direction = get a random question mark from this room
-    # next_room_for_stack = room_with_question_mark.get_room_in_direction(direction)
-    # push(next_room_for_stack)
+                # if no queue, then finished!
+                # return visited
+                                ```
+            
             
 
     # no unvisited, we must go back to nearest unvisited room 
@@ -108,7 +121,11 @@
         queue.dequeue()
     
             
-
+   
+    # room_with_question_mark = dequeue()
+    # direction = get a random question mark from this room
+    # next_room_for_stack = room_with_question_mark.get_room_in_direction(direction)
+    # push(next_room_for_stack)
     
 
 
