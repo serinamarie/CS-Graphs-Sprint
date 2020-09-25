@@ -59,7 +59,7 @@ class SocialGraph:
 
         # Store the number of friendships to create
         # Divide by 2 because each add_friendship() call will create two friendships
-        num_friendships = int((num_users * avg_friendships) / 2)
+        num_friendships = (num_users * avg_friendships) // 2
 
         # A list of friendships, of length num_friendships
         resulting_friendships = combos[:num_friendships]
@@ -158,7 +158,7 @@ class SocialGraph:
 
 if __name__ == '__main__':
     sg = SocialGraph()
-    sg.populate_graph(1000, 5)
+    sg.populate_graph(10, 2)
     print(sg.friendships)
     connections = sg.get_all_social_paths(1)
     print(connections)
