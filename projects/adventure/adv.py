@@ -61,8 +61,65 @@ def traverse(player):
                 traversal_path.append(exit)
                 player.travel(exit)
                 stack.append(d[room][exit])
+
+    if any('?' in r.values() for r in d.values()):
+        n = visited[-1]
+        queue.append(n)
+        
+    while queue:
+        path = queue.pop()
+        if not isinstance(path, list):
+            path = [path]
+        last_in_path = path[-1]
+        print('last in path:', last_in_path)
+        if '?' in d[last_in_path].values():
+            # get exits, etc.
+            print('if ??? print path:', path)
+            
+            directions = []
+
+            for i, room in enumerate(path[:-1]):
+                direction = list(d[room].keys())[list(d[room].values()).index(path[i+1])]
+                traversal_path.append(direction)
+                directions.append(direction)
+                # player.travel(direction)
+        
+
+            # # get random room 
+            # exits = player.current_room.get_exits()
+            # # find where exit has ?
+            # possible_next = []
+            # for exit in exits:
+            #     if d[player.current_room.id][exit] == '?':
+            #         possible_next.append(exit)
+            # print(possible_next)
+            # # choose rand
+            # stack.append(rand)
+            return traversal_path, player.current_room.id
+            
+        # else:
+        print('traversal_path:', traversal_path)
+        exits = player.current_room.get_exits()
+        print('exits:', player.current_room.id, exits)
+   
+        for exit in exits:
+            
+            n = player.current_room.get_room_in_direction(exit).id
+            print('exit:', n)
+            print('if n not in:', path)
+            if n not in path:
+                new_path = list(path)
+                player.travel(exit)
+                print('new room:', player.current_room.id)
+                new_path.append(n)
+                print('new_path:', new_path)
+                queue.append(new_path)
+                if None:
+                    return
+                
+
     
-    return traversal_path
+    # return player.current_room.id, traversal_path
 print(traverse(player))
 
 # Fill this out with directions to walk
