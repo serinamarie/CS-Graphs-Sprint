@@ -56,129 +56,166 @@ def traverse(player):
     queue = []
 
     stack.append(current_room)
-    while any('?' in ro.values() for ro in d.values()):
-        while stack:
-            print('while stack:', stack)
-            room = stack.pop()
-            print('room:', room)
-            visited.append(room)
-            print('visited after stack append:', visited)
-            exits = player.current_room.get_exits()
-            print('d:', d)
-            print('id and exits:', player.current_room.id, exits)
+    # while any('?' in ro.values() for ro in d.values()):
+    final_path = [0]
+    while stack:
+        # instead of if not visited, need to check if no '?'
+        print('while stack:', stack)
+        room = stack.pop()
+        final_path.append(room)
+        if room in visited:
+            continue
+            
+        print('final path:', final_path)
+        print('room:', room)
+        visited.append(room)
+        print('visited after stack append:', visited)
+        exits = world.rooms[room].get_exits()
+        print('d:', d)
+        print('id and exits:', world.rooms[room].id, exits)
+        if room not in d:
             d[room] = {}
             for exit in exits:
-                d[room][exit] = player.current_room.get_room_in_direction(exit).id
-            for exit in exits:
-                print('exit:', exit)
-                print('traversal path:', traversal_path)
-                if d[room][exit] not in visited:
-                    if exit:
-                        traversal_path.append(exit)
-                        player.travel(exit)
-                        stack.append(d[room][exit])
+                d[room][exit] = '?'
+        print('d', d)
+        for exit in exits:
+            print('exit:', exit)
+            print('traversal path:', traversal_path)
+            
+            if d[room][exit] == '?':
+                d[room][exit] = world.rooms[room].get_room_in_direction(exit).id
+    
+                print('d[room][exit]:', d[room][exit])
+            
+                # if world.rooms[room].get_room_in_direction(exit).id not in visited:
+            
+                stack.append(d[room][exit])
 
-        if any('?' in r.values() for r in d.values()):
-            n = visited[-1]
-            queue.append([n])
+            
 
-        directions = []
-        min_path_length = 100
-        while queue:
-            print('queue:', queue)
-            path = queue.pop(0)
-        
-            last_in_path = path[-1]
-            print('last in path', last_in_path)
+    print('final path:', final_path)
+    print('final d:', d)
 
-            # print('last in path:', last_in_path)
-            if '?' in d[last_in_path].values():
-                # get exits, etc.
-                # print('if ??? print path:', path)
+    #final_path needs to be converted into travel plans:
+    # enumerating
+    # appending to traversal path 
+    # trying below
+    directions = []
+    for i, room in enumerate(final_path[:-1]):
+                    direction = list(d[room].keys())[list(d[room].values()).index(final_path[i+1])]
+                    print('direction:', direction)
+                    traversal_path.append(direction)
+                    print('traversal_path:', traversal_path)
+                    directions.append(direction)
+                    print('directions', directions)
+                    player.travel(direction)
+                    print('added to traversal path from stack:', player.current_room.id)
+    return traversal_path, 'traversal from stack'
+    
+
+    if any('?' in r.values() for r in d.values()):
+        n = visited[-1]
+        queue.append([n])
+
+    directions = []
+    min_path_length = 100
+    while queue:
+        print('queue:', queue)
+        path = queue.pop(0)
+    
+        last_in_path = path[-1]
+        print('last in path', last_in_path)
+
+        # print('last in path:', last_in_path)
+        if '?' in d[last_in_path].values():
+            # get exits, etc.
+            # print('if ??? print path:', path)
+            
+            if len(path) < min_path_length:
+                print('dictionary:', d)
+
+                for i, room in enumerate(path[:-1]):
+                    direction = list(d[room].keys())[list(d[room].values()).index(path[i+1])]
+                    traversal_path.append(direction)
+                    directions.append(direction)
+                    player.travel(direction)
+                    print('added to traversal path from queue:', player.current_room.id)
+
+                min_path_length = len(path)
+
+            
+                brand_new = player.current_room.id
+                print('d brand new:', d[brand_new])
+
+                # return key in dict[0] where the key's value is 5
+                exits = player.current_room.get_exits()
+                second_to_last = path[-2:-1]
+                for exit in exits:
+                    if player.current_room.get_room_in_direction(exit).id == second_to_last[0]:
+                        d[brand_new][exit] = second_to_last[0]
+                print('d:', d)
+                #     b = player.current_room.get_room_in_direction(exit)
+                #     blah.append(exit)
+
+                # print('blah:', blah)
                 
-                if len(path) < min_path_length:
-                    print('dictionary:', d)
+                # get unknown direction keys
+                a = [key  for (key, value) in d[brand_new].items() if value == '?']
+                print('a', a)
 
-                    for i, room in enumerate(path[:-1]):
-                        direction = list(d[room].keys())[list(d[room].values()).index(path[i+1])]
-                        traversal_path.append(direction)
-                        directions.append(direction)
-                        player.travel(direction)
-                    min_path_length = len(path)
+                # pick a random room
+                if a: 
+                    random_direction = random.choice(a)
+                    print(random_direction)
+                    the_chosen_one = player.current_room.get_room_in_direction(random_direction).id
+                    player.travel(random_direction)
+                    traversal_path.append(random_direction)
+                    print('the chosen one:', the_chosen_one)
 
-                
-                    brand_new = player.current_room.id
-                    print('d brand new:', d[brand_new])
+                    print('traversal path before stack', traversal_path)
 
-                    # return key in dict[0] where the key's value is 5
-                    exits = player.current_room.get_exits()
-                    second_to_last = path[-2:-1]
-                    for exit in exits:
-                        if player.current_room.get_room_in_direction(exit).id == second_to_last[0]:
-                            d[brand_new][exit] = second_to_last[0]
-                    print('d:', d)
-                    #     b = player.current_room.get_room_in_direction(exit)
-                    #     blah.append(exit)
-
-                    # print('blah:', blah)
+                    # add chosen one to stack
+                    stack.append(the_chosen_one)
+                # # get random room 
+                # exits = player.current_room.get_exits()
+            # # find where exit has ?
+            # possible_next = []
+            # for exit in exits:
+            #     if d[player.current_room.id][exit] == '?':
+            #         possible_next.append(exit)
+            # print(possible_next)
+            # # choose rand
+            # stack.append(rand)
+            
+            
+        else:
+        # print('traversal_path:', traversal_path)
+            if len(path) < min_path_length:
+                exits = world.rooms[last_in_path].get_exits()
+                print('exits:', world.rooms[last_in_path].id, exits)
+            
+                print('d before travel:', d)
+                for exit in exits:
                     
-                    # get unknown direction keys
-                    a = [key  for (key, value) in d[brand_new].items() if value == '?']
-                    print('a', a)
+                    n = world.rooms[last_in_path].get_room_in_direction(exit).id
 
-                    # pick a random room
-                    if a: 
-                        random_direction = random.choice(a)
-                        print(random_direction)
-                        the_chosen_one = player.current_room.get_room_in_direction(random_direction).id
-                        player.travel(random_direction)
-                        traversal_path.append(random_direction)
-                        print('the chosen one:', the_chosen_one)
 
-                        print('traversal path before stack', traversal_path)
 
-                        # add chosen one to stack
-                        stack.append(the_chosen_one)
-                    # # get random room 
-                    # exits = player.current_room.get_exits()
-                # # find where exit has ?
-                # possible_next = []
-                # for exit in exits:
-                #     if d[player.current_room.id][exit] == '?':
-                #         possible_next.append(exit)
-                # print(possible_next)
-                # # choose rand
-                # stack.append(rand)
-                
-                
-            else:
-            # print('traversal_path:', traversal_path)
-                if len(path) < min_path_length:
-                    exits = world.rooms[last_in_path].get_exits()
-                    print('exits:', world.rooms[last_in_path].id, exits)
-                
-                    print('d before travel:', d)
-                    for exit in exits:
+                    # n = player.current_room.get_room_in_direction(exit).id
+                    print('n:', exit, n)
+                    # print('if n not in:', path)
+                    if n not in path:
                         
-                        n = world.rooms[last_in_path].get_room_in_direction(exit).id
-
-
-
-                        # n = player.current_room.get_room_in_direction(exit).id
-                        print('n:', exit, n)
-                        # print('if n not in:', path)
-                        if n not in path:
-                            
-                            new_path = list(path)
-                            
-                            # print('new room:', player.current_room.id)
-                            new_path.append(n)
-                            # print('new_path:', new_path)
-                            queue.append(new_path)
-                            
+                        new_path = list(path)
                         
+                        # print('new room:', player.current_room.id)
+                        new_path.append(n)
+                        # print('new_path:', new_path)
+                        queue.append(new_path)
+                        
+                    
 
-    return traversal_path
+    return traversal_path, 'traaaaa'
                     
 
     
@@ -189,8 +226,6 @@ def traverse(player):
 traversal_path = ['n', 'n']
 traversal_path = traverse(player)
 
-
-print(traversal_path)
 
 # TRAVERSAL TEST
 visited_rooms = set()

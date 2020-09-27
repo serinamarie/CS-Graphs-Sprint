@@ -100,6 +100,8 @@ class Graph:
 
         # push the starting vert
         stack.push(starting_vertex)
+
+        final = []
      
         # while stack isn't empty
         while stack.size() > 0:
@@ -107,7 +109,7 @@ class Graph:
             # pop off the top of the stack, and set to current vert
             current_vert = stack.pop()
 
-            print(current_vert)
+            final.append(current_vert)
 
             # get vert's neighbors 
             neighbors = self.get_neighbors(current_vert)
@@ -286,24 +288,6 @@ class Graph:
 if __name__ == '__main__':
     graph = Graph()  # Instantiate your graph
     # https://github.com/LambdaSchool/Graphs/blob/master/objectives/breadth-first-search/img/bfs-visit-order.png
-    # graph.add_vertex(1)
-    # graph.add_vertex(2)
-    # graph.add_vertex(3)
-    # graph.add_vertex(4)
-    # graph.add_vertex(5)
-    # graph.add_vertex(6)
-    # graph.add_vertex(7)
-    # graph.add_edge(5, 3)
-    # graph.add_edge(6, 3)
-    # graph.add_edge(7, 1)
-    # graph.add_edge(4, 7)
-    # graph.add_edge(1, 2)
-    # graph.add_edge(7, 6)
-    # graph.add_edge(2, 4)
-    # graph.add_edge(3, 5)
-    # graph.add_edge(2, 3)
-    # graph.add_edge(4, 6)
-
     graph.add_vertex(1)
     graph.add_vertex(2)
     graph.add_vertex(3)
@@ -311,10 +295,28 @@ if __name__ == '__main__':
     graph.add_vertex(5)
     graph.add_vertex(6)
     graph.add_vertex(7)
-    graph.add_vertex(8)
-    graph.add_vertex(9)
-    graph.add_vertex(10)
-    graph.add_vertex(11)
+    graph.add_edge(5, 3)
+    graph.add_edge(6, 3)
+    graph.add_edge(7, 1)
+    graph.add_edge(4, 7)
+    graph.add_edge(1, 2)
+    graph.add_edge(7, 6)
+    graph.add_edge(2, 4)
+    graph.add_edge(3, 5)
+    graph.add_edge(2, 3)
+    graph.add_edge(4, 6)
+
+    # graph.add_vertex(1)
+    # graph.add_vertex(2)
+    # graph.add_vertex(3)
+    # graph.add_vertex(4)
+    # graph.add_vertex(5)
+    # graph.add_vertex(6)
+    # graph.add_vertex(7)
+    # graph.add_vertex(8)
+    # graph.add_vertex(9)
+    # graph.add_vertex(10)
+    # graph.add_vertex(11)
     # graph.add_edge(1, 3)
     # graph.add_edge(2, 3)
     # graph.add_edge(3, 6)
@@ -326,16 +328,16 @@ if __name__ == '__main__':
     # graph.add_edge(11, 8)
     # graph.add_edge(10, 1)
 
-    graph.add_edge(3, 1)
-    graph.add_edge(3, 2)
-    graph.add_edge(6, 3)
-    graph.add_edge(6, 5)
-    graph.add_edge(7, 5)
-    graph.add_edge(5, 4)
-    graph.add_edge(8, 4)
-    graph.add_edge(9, 8)
-    graph.add_edge(8, 11)
-    graph.add_edge(1, 10)
+    # graph.add_edge(3, 1)
+    # graph.add_edge(3, 2)
+    # graph.add_edge(6, 3)
+    # graph.add_edge(6, 5)
+    # graph.add_edge(7, 5)
+    # graph.add_edge(5, 4)
+    # graph.add_edge(8, 4)
+    # graph.add_edge(9, 8)
+    # graph.add_edge(8, 11)
+    # graph.add_edge(1, 10)
 
     '''
     Should print:
