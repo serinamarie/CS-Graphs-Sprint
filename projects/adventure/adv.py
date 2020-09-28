@@ -14,8 +14,8 @@ world = World()
 # map_file = "maps/test_line.txt"
 # map_file = "maps/test_cross.txt" # passed
 # map_file = "maps/test_loop.txt" # passed
-map_file = "maps/test_loop_fork.txt"
-# map_file = "maps/main_maze.txt"
+# map_file = "maps/test_loop_fork.txt"
+map_file = "maps/main_maze.txt"
 
 # Loads the map into a dictionary
 room_graph=literal_eval(open(map_file, "r").read())
@@ -23,7 +23,7 @@ world.load_graph(room_graph)
 
 # Print an ASCII map
 world.print_rooms()
-
+breakpoint()
 player = Player(world.starting_room)
 
 # directions = world.rooms[8].get_exits()
@@ -52,7 +52,7 @@ def traverse(player):
     current_room = player.current_room.id
     d[starting_room][direction] = current_room
     
-    stack = []
+    stack = [0]
     queue = []
 
     stack.append(current_room)
@@ -63,6 +63,8 @@ def traverse(player):
         print('while stack:', stack)
         room = stack.pop()
         final_path.append(room)
+        print('d:', d)
+        print('final path after popped from stack:', final_path)
         if room in visited:
             continue
             
@@ -87,13 +89,12 @@ def traverse(player):
     
                 print('d[room][exit]:', d[room][exit])
             
-                # if world.rooms[room].get_room_in_direction(exit).id not in visited:
+                if world.rooms[room].get_room_in_direction(exit).id not in visited:
             
-                stack.append(d[room][exit])
+                    stack.append(d[room][exit])
 
             
 
-    print('final path:', final_path)
     print('final d:', d)
 
     #final_path needs to be converted into travel plans:
@@ -141,6 +142,11 @@ def traverse(player):
                     player.travel(direction)
                     print('added to traversal path from queue:', player.current_room.id)
 
+                    # 9/27
+                    final_path.append(path)
+                    print('final path from queue:', final_path)
+                    ###
+
                 min_path_length = len(path)
 
             
@@ -169,6 +175,7 @@ def traverse(player):
                     print(random_direction)
                     the_chosen_one = player.current_room.get_room_in_direction(random_direction).id
                     player.travel(random_direction)
+                    
                     traversal_path.append(random_direction)
                     print('the chosen one:', the_chosen_one)
 
@@ -176,6 +183,11 @@ def traverse(player):
 
                     # add chosen one to stack
                     stack.append(the_chosen_one)
+
+
+                    
+
+
                 # # get random room 
                 # exits = player.current_room.get_exits()
             # # find where exit has ?
