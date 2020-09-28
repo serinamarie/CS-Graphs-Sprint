@@ -63,6 +63,7 @@ def traverse(player):
     visited.append(current_room)
 
     stack = []
+    stack.append([current_room, direction])
     while len(d) < len(room_graph):
         print('length of d:', len(d))
         print('length of room graph:', len(room_graph))
@@ -72,11 +73,12 @@ def traverse(player):
         
         queue = []
 
-        stack.append([current_room, direction])
+        
         room_path = []
         while stack:
             # pop off top of stack
             curr = stack.pop()
+            print('stack:', stack)
             print('popped:', curr[-1])
             print('curr room before travel:', player.current_room.id)
             # append direction and then travel
@@ -89,7 +91,7 @@ def traverse(player):
             # get id's of exit rooms
             exits = player.current_room.get_exits()
 
-            print('visited:', visited)
+           
 
             ro = player.current_room.id
             print('ro:', ro)
@@ -198,34 +200,80 @@ def traverse(player):
 
                     print('room for stack:', room_for_stack)
 
-                    # find where exits are a question mark
+                    # find if any unvisited nodes. 
                     exits = player.current_room.get_exits()
-                    unknown_exits = [key for (key, value) in d[room_for_stack].items() if value == '?']
-                    print('unknown exits:', unknown_exits)
-                    # choose one at random 
-                    if unknown_exits:
-                    
-                        random_direction = random.choice(unknown_exits)
-                        print('random direction:', random_direction)
-                        chosen = player.current_room.get_room_in_direction(random_direction).id
-                        print('chosen:', chosen)
-                        visited.append(chosen)
-                        # add to dict
-                        d[room_for_stack][random_direction] = chosen
-                        print('d[room_for_stack]:', d[room_for_stack])
-                        # 9/27
-                        player.travel(random_direction)
-                        print('current room after travel:', player.current_room.id)
-                    
-                        
-                        # as we do it in stack
-                        # # have not appended to traversal path !
-                        # traversal_path.append(random_direction)
-                        # print('traversal path:', traversal_path)
+                    # get list of rooms
+                    list_of_rooms = {}
+                    for exit in exits:
+                        list_of_rooms[exit] = player.current_room.get_room_in_direction(exit).id
 
-                        stack.append([chosen, random_direction])
-                        queue = []
-            
+                    # see if there are unvisited rooms before choosing one with a '?'
+                    # get list of unvisited rooms
+                    unvisited_exits = []
+                    unvisited_exits.append([k for k, v in list_of_rooms.items() if v not in visited])
+                    
+                    # try getting unvisited rooms
+                    try:
+                        unvisited_exits = unvisited_exits[0][0]
+                        print('unvisited exits:', unvisited_exits)
+                        # if multiple unvisited nodes
+                        if len(unvisited_exits) > 1:
+                            # choose one at random and go there
+                            random_exit = random.choice(unvisited_exits)
+                            print('random exit:', random_exit)
+                            chosen_exit_room = player.current_room.get_room_in_direction(random_exit).id 
+                            print('chosen exit:', chosen_exit_room)
+                            visited.append(chosen_exit_room)
+                            d[room_for_stack][random_exit] = chosen_exit_room
+                            print('d[room_for_stack]:', d[room_for_stack])
+                            # player.travel(random_exit)
+                            print('current room after travel:', player.current_room.id)
+                            stack.append([chosen_exit_room, random_exit])
+                            queue = []
+                        elif len(unvisited_exits) == 1:
+                    
+                            exit_room = player.current_room.get_room_in_direction(unvisited_exits).id 
+                            print('exit room:', exit_room)
+                            visited.append(exit_room)
+                            d[room_for_stack][unvisited_exits] = exit_room
+                            print('d[room_for_stack]:', d[room_for_stack])
+                            # player.travel(unvisited_exits)
+                            print('current room after travel:', player.current_room.id)
+                            stack.append([exit_room, unvisited_exits])
+                            print('stack append:', [exit_room, unvisited_exits])
+                            queue = []
+                            
+                    # if no unvisited rooms
+                    except:
+
+                        # find where room's exits are a question mark
+                    
+                        unknown_exits = [key for (key, value) in d[room_for_stack].items() if value == '?']
+                        print('unknown exits:', unknown_exits)
+                        # choose one at random 
+                        if unknown_exits:
+                        
+                            random_direction = random.choice(unknown_exits)
+                            print('random direction:', random_direction)
+                            chosen = player.current_room.get_room_in_direction(random_direction).id
+                            print('chosen:', chosen)
+                            visited.append(chosen)
+                            # add to dict
+                            d[room_for_stack][random_direction] = chosen
+                            print('d[room_for_stack]:', d[room_for_stack])
+                            # 9/27
+                            # player.travel(random_direction)
+                            print('current room after travel:', player.current_room.id)
+                        
+                            
+                            # as we do it in stack
+                            # # have not appended to traversal path !
+                            # traversal_path.append(random_direction)
+                            # print('traversal path:', traversal_path)
+
+                            stack.append([chosen, random_direction])
+                            queue = []
+                
 
                     # add to latest node to stack
             else:
@@ -279,11 +327,11 @@ for move in traversal_path:
 
 print("test says player's current room", ids, len(set(ids)))
 
-# if len(visited_rooms) == len(room_graph):
-#     print(f"TESTS PASSED: {len(traversal_path)} moves, {len(visited_rooms)} rooms visited")
-# else:
-#     print("TESTS FAILED: INCOMPLETE TRAVERSAL")
-#     print(f"{len(room_graph) - len(visited_rooms)} unvisited rooms")
+if len(visited_rooms) == len(room_graph):
+    print(f"TESTS PASSED: {len(traversal_path)} moves, {len(visited_rooms)} rooms visited")
+else:
+    print("TESTS FAILED: INCOMPLETE TRAVERSAL")
+    print(f"{len(room_graph) - len(visited_rooms)} unvisited rooms")
 
 
 ######
